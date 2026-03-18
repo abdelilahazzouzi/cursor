@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dr Strange</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_courses">Courses</string>
+    <string name="nav_simulation">Simulation</string>
+    <string name="nav_progress">Progress</string>
+</resources>
