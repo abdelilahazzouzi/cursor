@@ -1,23 +1,22 @@
-# Dr Strange - Medical Courses App
+# Banner Calculator
 
-An Android application for medical education featuring courses, interactive simulations, progress tracking, and a comprehensive dashboard.
+Android app for banner price calculation — designed for printing and graphics businesses. Calculates banner cost using dimensions, quantity, and price per square foot.
 
-## Tech Stack
-
-- **Language:** Kotlin
-- **UI:** Jetpack Compose with Material 3
-- **Navigation:** Navigation Compose
-- **Min SDK:** 24 (Android 7.0)
-- **Target SDK:** 34 (Android 14)
+**Package:** `com.azizgraphics.clcltr`
 
 ## Features
 
 | Screen | Description |
 |--------|-------------|
-| **Dashboard** | Welcome overview, stats, continue learning cards, recent activity |
-| **Courses** | Browse/filter medical courses by category, enroll, track progress |
-| **Simulation** | Interactive medical simulations with scoring and difficulty levels |
-| **Progress** | Overall progress ring, achievements, per-course progress, weekly activity chart |
+| **Calculate** | Glass-style summary card, dynamic item cards with width/height (ft+in), quantity dropdown, material selector, price/sqft, real-time totals in PKR |
+| **History** | Saved orders in expandable cards, dotted-grid dimension view, share as text/image, delete |
+| **Settings** | Default unit/price, theme (System/Light/Dark), currency (PKR, USD, etc.), manage materials & customers, AZIZ-GRAPHICS about section |
+
+## Tech Stack
+
+- Kotlin 1.9.22, Jetpack Compose, Material 3
+- Room (SQLite), DataStore Preferences
+- Navigation Compose, Gson, FileProvider
 
 ## Build
 
@@ -25,25 +24,4 @@ An Android application for medical education featuring courses, interactive simu
 ./gradlew assembleDebug
 ```
 
-The debug APK will be at `app/build/outputs/apk/debug/app-debug.apk`.
-
-## Project Structure
-
-```
-app/src/main/java/com/drstrange/app/
-├── MainActivity.kt          # Entry point
-├── DrStrangeApp.kt           # Root composable with bottom navigation
-├── navigation/
-│   ├── Screen.kt             # Screen definitions with icons
-│   └── AppNavigation.kt      # NavHost setup
-├── ui/
-│   ├── theme/                # Color, Typography, Theme
-│   └── screens/
-│       ├── dashboard/        # Dashboard screen
-│       ├── courses/          # Courses list with filtering
-│       ├── simulation/       # Simulation cards
-│       └── progress/         # Progress tracking
-└── data/
-    ├── model/                # Course, Simulation data classes
-    └── SampleData.kt         # Sample medical data
-```
+APK: `app/build/outputs/apk/debug/app-debug.apk`
