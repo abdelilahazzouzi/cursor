@@ -239,6 +239,8 @@ private fun CalcItemCard(
     val orderItem = item.toOrderItem()
     var matExpanded by remember { mutableStateOf(false) }
     var qtyExpanded by remember { mutableStateOf(false) }
+    var customQty by remember { mutableStateOf(false) }
+    var customQtyText by remember(item.quantity) { mutableStateOf("${item.quantity}") }
 
     ItemCard {
         Column {
@@ -349,26 +351,57 @@ private fun CalcItemCard(
             Spacer(modifier = Modifier.height(10.dp))
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                ExposedDropdownMenuBox(
-                    expanded = qtyExpanded,
-                    onExpandedChange = { qtyExpanded = it },
-                    modifier = Modifier.weight(1f)
-                ) {
+                if (customQty) {
                     OutlinedTextField(
-                        value = "${item.quantity}",
-                        onValueChange = {},
-                        readOnly = true,
+                        value = customQtyText,
+                        onValueChange = { v ->
+                            customQtyText = v
+                            val parsed = v.toIntOrNull()
+                            if (parsed != null && parsed > 0) {
+                                onUpdate { it.copy(quantity = parsed) }
+                            }
+                        },
                         label = { Text("Qty") },
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = qtyExpanded) },
-                        modifier = Modifier.menuAnchor().fillMaxWidth(),
-                        shape = RoundedCornerShape(14.dp)
+                        modifier = Modifier.weight(1f),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true,
+                        shape = RoundedCornerShape(14.dp),
+                        trailingIcon = {
+                            IconButton(onClick = { customQty = false }, modifier = Modifier.size(20.dp)) {
+                                Icon(Icons.Filled.Close, "Back to list", modifier = Modifier.size(16.dp))
+                            }
+                        }
                     )
-                    ExposedDropdownMenu(expanded = qtyExpanded, onDismissRequest = { qtyExpanded = false }) {
-                        (1..10).forEach { qty ->
+                } else {
+                    ExposedDropdownMenuBox(
+                        expanded = qtyExpanded,
+                        onExpandedChange = { qtyExpanded = it },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        OutlinedTextField(
+                            value = "${item.quantity}",
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text("Qty") },
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = qtyExpanded) },
+                            modifier = Modifier.menuAnchor().fillMaxWidth(),
+                            shape = RoundedCornerShape(14.dp)
+                        )
+                        ExposedDropdownMenu(expanded = qtyExpanded, onDismissRequest = { qtyExpanded = false }) {
+                            (1..10).forEach { qty ->
+                                DropdownMenuItem(
+                                    text = { Text("$qty") },
+                                    onClick = {
+                                        onUpdate { it.copy(quantity = qty) }
+                                        qtyExpanded = false
+                                    }
+                                )
+                            }
                             DropdownMenuItem(
-                                text = { Text("$qty") },
+                                text = { Text("Custom...") },
                                 onClick = {
-                                    onUpdate { it.copy(quantity = qty) }
+                                    customQty = true
+                                    customQtyText = "${item.quantity}"
                                     qtyExpanded = false
                                 }
                             )
